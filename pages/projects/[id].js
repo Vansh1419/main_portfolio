@@ -1,9 +1,7 @@
 import Head from "next/head";
 import React from "react";
 import Navbar from "../../components/Frontend/Navbar";
-import { useState, useEffect } from "react";
 import { getDocs, query, where } from "firebase/firestore";
-import { useCollection } from "react-firebase-hooks/firestore";
 import { projectsCollectionRef } from "../../utils/Firebase/firebaseConfig";
 import { Button } from "@mui/material";
 
