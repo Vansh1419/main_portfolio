@@ -25,7 +25,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
    ! &>ul>li -> unordered list
    ! &>iframe -> video
 */
-const Project = ({project}) => {
+const Project = ({ project }) => {
   // const [project, setProject] = useState({});
   // const q = query(projectsCollectionRef, where("id", "==", projectId));
   // const [projectsSnapshot] = useCollection(q);
@@ -87,41 +87,45 @@ const Project = ({project}) => {
 };
 export default Project;
 
-export const getServerSideProps = async ({ params }) => {
-  const q = query(projectsCollectionRef, where("id", "==", params.id));
-  const projectsSnapshot = await getDocs(q);
-  if (!projectsSnapshot) return [];
-  return {
-    props: {
-      project: JSON.parse(JSON.stringify(projectsSnapshot?.docs[0]?.data())),
-    },
-  };
-};
-// export const getStaticProps = async ({ params }) => {
+// export const getServerSideProps = async ({ params }) => {
 //   const q = query(projectsCollectionRef, where("id", "==", params.id));
 //   const projectsSnapshot = await getDocs(q);
-//   if (!projectsSnapshot)
-//     return {
-//       notFound: true,
-//     };
+//   if (!projectsSnapshot) return [];
 //   return {
 //     props: {
-//       projectId: params.id,
+//       project: JSON.parse(JSON.stringify(projectsSnapshot?.docs[0]?.data())),
 //     },
-//     revalidate: 1,
 //   };
 // };
-// export const getStaticPaths = async () => {
-//   const projectsSnapshot = await getDocs(projectsCollectionRef);
-//   const projects = projectsSnapshot.docs.map((doc) => ({
-//     id: doc.id,
-//     ...doc.data(),
-//   }));
-//   const paths = projects.map((project) => ({
-//     params: { id: project.id },
-//   }));
-//   return {
-//     paths,
-//     fallback: "blocking",
-//   };
-// };
+export const getStaticProps = async ({ params }) => {
+  const q = query(projectsCollectionRef, where("id", "==", params.id));
+  const projectsSnapshot = await getDocs(q);
+  const projects = projectsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  if (!projectsSnapshot)
+    return {
+      notFound: true,
+    };
+  return {
+    props: {
+      project: JSON.parse(JSON.stringify(projects[0])),
+    },
+    revalidate: 1,
+  };
+};
+export const getStaticPaths = async () => {
+  const projectsSnapshot = await getDocs(projectsCollectionRef);
+  const projects = projectsSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  const paths = projects.map((project) => ({
+    params: { id: project.id },
+  }));
+  return {
+    paths,
+    fallback: "blocking",
+  };
+};
