@@ -40,7 +40,7 @@ const projectPage = () => {
     };
     projectsData();
   }, []);
-  console.log(projects.length);
+  console.log(projects);
   return (
     <div>
       <Head>
