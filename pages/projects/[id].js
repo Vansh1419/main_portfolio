@@ -1,9 +1,10 @@
 import Head from "next/head";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Frontend/Navbar";
 import { getDocs, query, where } from "firebase/firestore";
 import { projectsCollectionRef } from "../../utils/Firebase/firebaseConfig";
 import { Button } from "@mui/material";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 /*
    ! &>h1 -> heading 1
@@ -24,7 +25,16 @@ import { Button } from "@mui/material";
    ! &>ul>li -> unordered list
    ! &>iframe -> video
 */
-const Project = ({ project }) => {
+const Project = ({ projectId }) => {
+  const [project, setProject] = useState({});
+  const q = query(projectsCollectionRef, where("id", "==", projectId));
+  const [projectsSnapshot] = useCollection(q);
+  useEffect(() => {
+    if (projectsSnapshot) {
+      setProject(projectsSnapshot?.docs[0]?.data());
+    }
+  }, [projectsSnapshot]);
+  console.log(project);
   return (
     <div>
       <Head>
@@ -96,7 +106,7 @@ export const getStaticProps = async ({ params }) => {
     };
   return {
     props: {
-      project: JSON.parse(JSON.stringify(projectsSnapshot?.docs[0]?.data())),
+      projectId: params.id,
     },
     revalidate: 1,
   };
