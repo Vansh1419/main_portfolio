@@ -13,12 +13,12 @@ const important = (projects) =>
       </h2>
       <p className="font-light">{project?.description}</p>
       <div className="flex flex-wrap items-center justify-around">
-        <a className="my-2" href={project.github}>
+        <a target="_blank" className="my-2" href={project.github}>
           <Button className="" variant="outlined">
             Github
           </Button>
         </a>
-        <a className="my-2" href={project.projectLink}>
+        <a target="_blank" className="my-2" href={project.projectLink}>
           <Button className="" variant="outlined">
             Project
           </Button>

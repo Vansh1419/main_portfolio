@@ -66,14 +66,18 @@ const Project = ({ projectId }) => {
         />
         <h4 className="p-3 font-bold">
           Project Link :{" "}
-          <a href={project.projectLink}>
-            <Button className="ml-3" variant="outlined">Click Here</Button>
+          <a target="_blank" href={project.projectLink}>
+            <Button className="ml-3" variant="outlined">
+              Click Here
+            </Button>
           </a>
         </h4>
         <h4 className="p-3 font-bold">
           Github Link :{" "}
-          <a href={project.github}>
-            <Button className="ml-3" variant="outlined">Click Here</Button>
+          <a target="_blank" href={project.github}>
+            <Button className="ml-3" variant="outlined">
+              Click Here
+            </Button>
           </a>
         </h4>
         <hr className="pb-10" />
@@ -83,21 +87,21 @@ const Project = ({ projectId }) => {
 };
 export default Project;
 
-export const getStaticProps = ({ params }) => {
+export const getServerSideProps = ({ params }) => {
   return {
     props: {
       projectId: params.id,
     },
-    revalidate: 10,
+    // revalidate: 10,
   };
 };
-export const getStaticPaths = async () => {
-  const getProjects = await getDocs(projectsCollectionRef);
-  const paths = getProjects?.docs?.map((projectsArray) => ({
-    params: { id: projectsArray.id },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
-};
+// export const getStaticPaths = async () => {
+//   const getProjects = await getDocs(projectsCollectionRef);
+//   const paths = getProjects?.docs?.map((projectsArray) => ({
+//     params: { id: projectsArray.id },
+//   }));
+//   return {
+//     paths,
+//     fallback: "blocking",
+//   };
+// };
