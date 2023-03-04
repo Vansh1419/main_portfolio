@@ -90,7 +90,10 @@ export default Project;
 export const getStaticProps = async ({ params }) => {
   const q = query(projectsCollectionRef, where("id", "==", params.id));
   const projectsSnapshot = await getDocs(q);
-  if (!projectsSnapshot) return [];
+  if (!projectsSnapshot)
+    return {
+      notFound: true,
+    };
   return {
     props: {
       project: JSON.parse(JSON.stringify(projectsSnapshot?.docs[0]?.data())),
