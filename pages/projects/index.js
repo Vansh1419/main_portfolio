@@ -31,15 +31,15 @@ const important = (projects) =>
       </div>
     </Paper>
   ));
-const projectPage = () => {
-  const [projects, setProjects] = React.useState([]);
-  useEffect(() => {
-    const projectsData = async () => {
-      const getProjects = await getDocs(projectsCollectionRef);
-      setProjects(getProjects?.docs?.map((doc) => doc.data()));
-    };
-    projectsData();
-  }, []);
+const projectPage = ({projects}) => {
+  // const [projects, setProjects] = React.useState([]);
+  // useEffect(() => {
+  //   const projectsData = async () => {
+  //     const getProjects = await getDocs(projectsCollectionRef);
+  //     setProjects(getProjects?.docs?.map((doc) => doc.data()));
+  //   };
+  //   projectsData();
+  // }, []);
   console.log(projects);
   return (
     <div>
@@ -70,3 +70,13 @@ const projectPage = () => {
 };
 
 export default projectPage;
+
+export async function getServerSideProps(){
+    const projects = await getDocs(projectsCollectionRef);
+    const projectsData = projects?.docs?.map((doc) => doc.data());
+    return {
+        props: {
+            projects: JSON.parse(JSON.stringify(projectsData)),
+        },
+    };
+}
