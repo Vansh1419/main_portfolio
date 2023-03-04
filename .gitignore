@@ -30,11 +30,3 @@ yarn-error.log*
 
 # vercel
 .vercel
-
-# PWAs
-**/public/sw.js
-**/public/sw.js.map
-**/public/workbox-*.js
-**/public/workbox-*.js.map
-**/public/worker-*.json
-**/public/worker-*.js.map
