@@ -1,5 +1,5 @@
 import { Button, CircularProgress, Paper } from "@mui/material";
-import { getDocs, orderBy,query } from "firebase/firestore";
+import { getDocs, orderBy, query } from "firebase/firestore";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -23,7 +23,12 @@ const important = (projects) =>
             Project
           </Button>
         </a>
-        <Link href={`/projects/${project.id}`}>
+        <Link
+          onClick={() => {
+            console.log(project.id);
+          }}
+          href={`/projects/${project.id}`}
+        >
           <Button className="" variant="outlined">
             Know More
           </Button>
@@ -31,15 +36,15 @@ const important = (projects) =>
       </div>
     </Paper>
   ));
-const projectPage = ({projects}) => {
-  // const [projects, setProjects] = React.useState([]);
-  // useEffect(() => {
-  //   const projectsData = async () => {
-  //     const getProjects = await getDocs(projectsCollectionRef);
-  //     setProjects(getProjects?.docs?.map((doc) => doc.data()));
-  //   };
-  //   projectsData();
-  // }, []);
+const projectPage = () => {
+  const [projects, setProjects] = React.useState([]);
+  useEffect(() => {
+    const projectsData = async () => {
+      const getProjects = await getDocs(projectsCollectionRef);
+      setProjects(getProjects?.docs?.map((doc) => doc.data()));
+    };
+    projectsData();
+  }, []);
   console.log(projects);
   return (
     <div>
@@ -70,13 +75,3 @@ const projectPage = ({projects}) => {
 };
 
 export default projectPage;
-
-export async function getServerSideProps(){
-    const projects = await getDocs(projectsCollectionRef);
-    const projectsData = projects?.docs?.map((doc) => doc.data());
-    return {
-        props: {
-            projects: JSON.parse(JSON.stringify(projectsData)),
-        },
-    };
-}
