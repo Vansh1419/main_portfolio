@@ -1,5 +1,5 @@
 import { Button, CircularProgress, Paper } from "@mui/material";
-import { getDocs } from "firebase/firestore";
+import { getDocs, orderBy,query } from "firebase/firestore";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect } from "react";
@@ -35,6 +35,7 @@ const projectPage = () => {
   const [projects, setProjects] = React.useState([]);
   useEffect(() => {
     const projectsData = async () => {
+      // const q = query(projectsCollectionRef, orderBy("createdAt", "asc"));
       const getProjects = await getDocs(projectsCollectionRef);
       setProjects(getProjects?.docs?.map((doc) => doc.data()));
     };
@@ -69,4 +70,4 @@ const projectPage = () => {
   );
 };
 
-export default projectPage;
+export default projectPage

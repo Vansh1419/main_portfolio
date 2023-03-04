@@ -26,15 +26,7 @@ import { Button } from "@mui/material";
    ! &>ul>li -> unordered list
    ! &>iframe -> video
 */
-const Project = ({ projectId }) => {
-  const [project, setProject] = useState({});
-  const q = query(projectsCollectionRef, where("id", "==", projectId));
-  const [projectsSnapshot] = useCollection(q);
-  useEffect(() => {
-    if (projectsSnapshot) {
-      setProject(projectsSnapshot?.docs[0]?.data());
-    }
-  }, [projectsSnapshot]);
+const Project = ({ project }) => {
   return (
     <div>
       <Head>
@@ -87,21 +79,14 @@ const Project = ({ projectId }) => {
 };
 export default Project;
 
-export const getServerSideProps = ({ params }) => {
+export const getServerSideProps = async ({ params }) => {
+  const q = query(projectsCollectionRef, where("id", "==", params.id));
+  const projectsSnapshot = await getDocs(q);
+
+  if (!projectsSnapshot) return [];
   return {
     props: {
-      projectId: params.id,
+      project: JSON.parse(JSON.stringify(projectsSnapshot?.docs[0]?.data())),
     },
-    // revalidate: 10,
   };
 };
-// export const getStaticPaths = async () => {
-//   const getProjects = await getDocs(projectsCollectionRef);
-//   const paths = getProjects?.docs?.map((projectsArray) => ({
-//     params: { id: projectsArray.id },
-//   }));
-//   return {
-//     paths,
-//     fallback: "blocking",
-//   };
-// };
