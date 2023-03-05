@@ -144,21 +144,21 @@ const UpdateProject = ({ projectId }) => {
 };
 
 export default UpdateProject;
-export const getStaticProps = ({ params }) => {
+export const getServerSideProps = ({ params }) => {
   return {
     props: {
       projectId: params.edit_project,
     },
-    revalidate: 10,
+    // revalidate: 10,
   };
 };
-export const getStaticPaths = async () => {
-  const getProjects = await getDocs(projectsCollectionRef);
-  const paths = getProjects?.docs?.map((projectsArray) => ({
-    params: { edit_project: projectsArray.id },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
-};
+// export const getStaticPaths = async () => {
+//   const getProjects = await getDocs(projectsCollectionRef);
+//   const paths = getProjects?.docs?.map((projectsArray) => ({
+//     params: { edit_project: projectsArray.id },
+//   }));
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };

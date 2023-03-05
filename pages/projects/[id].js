@@ -97,7 +97,7 @@ export default Project;
 //     },
 //   };
 // };
-export const getStaticProps = async ({ params }) => {
+export const getServerSideProps = async ({ params }) => {
   const q = query(projectsCollectionRef, where("id", "==", params.id));
   const projectsSnapshot = await getDocs(q);
   const projects = projectsSnapshot.docs.map((doc) => ({
@@ -112,20 +112,20 @@ export const getStaticProps = async ({ params }) => {
     props: {
       project: JSON.parse(JSON.stringify(projects[0])),
     },
-    revalidate: 1,
+    // revalidate: 1,
   };
 };
-export const getStaticPaths = async () => {
-  const projectsSnapshot = await getDocs(projectsCollectionRef);
-  const projects = projectsSnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-  const paths = projects.map((project) => ({
-    params: { id: project.id },
-  }));
-  return {
-    paths,
-    fallback: "blocking",
-  };
-};
+// export const getStaticPaths = async () => {
+//   const projectsSnapshot = await getDocs(projectsCollectionRef);
+//   const projects = projectsSnapshot.docs.map((doc) => ({
+//     id: doc.id,
+//     ...doc.data(),
+//   }));
+//   const paths = projects.map((project) => ({
+//     params: { id: project.id },
+//   }));
+//   return {
+//     paths,
+//     fallback: "blocking",
+//   };
+// };

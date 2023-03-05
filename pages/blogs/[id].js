@@ -65,21 +65,21 @@ const Blog = ({ blogId }) => {
 
 export default Blog;
 
-export const getStaticProps = ({ params }) => {
+export const getServerSideProps = ({ params }) => {
   return {
     props: {
       blogId: params.id,
     },
-    revalidate: 10,
+    // revalidate: 10,
   };
 };
-export const getStaticPaths = async () => {
-  const getBlogs = await getDocs(blogsCollectionRef);
-  const paths = getBlogs?.docs?.map((blogsArray) => ({
-    params: { id: blogsArray.id },
-  }));
-  return {
-    paths,
-    fallback: false,
-  };
-};
+// export const getStaticPaths = async () => {
+//   const getBlogs = await getDocs(blogsCollectionRef);
+//   const paths = getBlogs?.docs?.map((blogsArray) => ({
+//     params: { id: blogsArray.id },
+//   }));
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };
