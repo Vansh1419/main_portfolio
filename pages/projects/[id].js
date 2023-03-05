@@ -38,17 +38,17 @@ const Project = ({ project }) => {
   return (
     <div>
       <Head>
-        <title>{project.title}</title>
+        <title>{project?.title}</title>
       </Head>
       <Navbar />
       <div className="max-w-5xl mx-auto">
         <img
-          src={project.image}
+          src={project?.image}
           loading="lazy"
           className="h-40 object-contain mx-auto"
         />
         <h2 className="text-3xl md:4xl text-center break-words font-bold p-4 ">
-          {project.title}
+          {project?.title}
         </h2>
         <div
           className="p-2 break-words
@@ -62,11 +62,11 @@ const Project = ({ project }) => {
                [&>h6]:text-xs 
                [&>.ql-size-small]:text-red-600 [&>p>a]:text-indigo-700 [&>p>a]:underline  hover:[&>p>a]:text-blue-400
                "
-          dangerouslySetInnerHTML={{ __html: project.content }}
+          dangerouslySetInnerHTML={{ __html: project?.content }}
         />
         <h4 className="p-3 font-bold">
           Project Link :{" "}
-          <a target="_blank" href={project.projectLink}>
+          <a target="_blank" href={project?.projectLink}>
             <Button className="ml-3" variant="outlined">
               Click Here
             </Button>
@@ -74,7 +74,7 @@ const Project = ({ project }) => {
         </h4>
         <h4 className="p-3 font-bold">
           Github Link :{" "}
-          <a target="_blank" href={project.github}>
+          <a target="_blank" href={project?.github}>
             <Button className="ml-3" variant="outlined">
               Click Here
             </Button>
@@ -104,10 +104,10 @@ export const getServerSideProps = async ({ params }) => {
     id: doc.id,
     ...doc.data(),
   }));
-  if (!projectsSnapshot)
-    return {
-      notFound: true,
-    };
+  // if (!projectsSnapshot)
+  //   return {
+  //     notFound: true,
+  //   };
   return {
     props: {
       project: JSON.parse(JSON.stringify(projects[0])),
